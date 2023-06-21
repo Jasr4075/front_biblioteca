@@ -1,16 +1,44 @@
 [
   {
-    "name": "inspire",
-    "path": "/inspire",
-    "component": "/home/ixcsoft/juan/meu_nuxt/pages/inspire.vue",
-    "chunkName": "pages/inspire",
-    "_name": "_6887a66c"
+    "name": "cadastroAutor",
+    "path": "/cadastroAutor",
+    "component": "/home/ixcsoft/juan/meu_nuxt/pages/cadastroAutor.vue",
+    "chunkName": "pages/cadastroAutor",
+    "_name": "_e716e008"
   },
   {
-    "name": "index",
-    "path": "/",
-    "component": "/home/ixcsoft/juan/meu_nuxt/pages/index.vue",
-    "chunkName": "pages/index",
-    "_name": "_a3145238"
+    "name": "cadastroLivro",
+    "path": "/cadastroLivro",
+    "component": "/home/ixcsoft/juan/meu_nuxt/pages/cadastroLivro.vue",
+    "chunkName": "pages/cadastroLivro",
+    "_name": "_7b97f46f"
+  },
+  {
+    "name": "cadastroUsuario",
+    "path": "/cadastroUsuario",
+    "component": "/home/ixcsoft/juan/meu_nuxt/pages/cadastroUsuario.vue",
+    "chunkName": "pages/cadastroUsuario",
+    "_name": "_44fae0c7"
+  },
+  {
+    "name": "categorias",
+    "path": "/categorias",
+    "component": "/home/ixcsoft/juan/meu_nuxt/pages/categorias.vue",
+    "chunkName": "pages/categorias",
+    "_name": "_29d92ffe"
+  },
+  {
+    "name": "emprestimo",
+    "path": "/emprestimo",
+    "component": "/home/ixcsoft/juan/meu_nuxt/pages/emprestimo.vue",
+    "chunkName": "pages/emprestimo",
+    "_name": "_4ddae6e6"
+  },
+  {
+    "name": "home",
+    "path": "/home",
+    "component": "/home/ixcsoft/juan/meu_nuxt/pages/home.vue",
+    "chunkName": "pages/home",
+    "_name": "_7685f43d"
   }
 ]

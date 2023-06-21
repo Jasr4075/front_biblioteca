@@ -2,9 +2,7 @@
   <v-container>
     <v-row>
       <v-col>
-        <h1 class="text-center">
-          Cadastro de Categorias
-        </h1>
+        <h1 class="text-center">Cadastro de Autor</h1>
         <v-btn
           fab
           small
@@ -12,9 +10,7 @@
           class="mx-auto"
           @click="dialog = true"
         >
-          <v-icon>
-            mdi-plus
-          </v-icon>
+          <v-icon>mdi-plus</v-icon>
         </v-btn>
       </v-col>
     </v-row>
@@ -32,26 +28,10 @@
           </v-col>
         </v-row>
         <v-card-title>
-          <v-data-table
-            :headers="headers"
-            :items="items"
-            :search="search"
-          >
+          <v-data-table :headers="headers" :items="items" :search="search">
             <template #[`item.actions`]="{ item }">
-              <v-icon
-                small
-                color="blue"
-                @click="update(item)"
-              >
-                mdi-pencil
-              </v-icon>
-              <v-icon
-                small
-                color="red"
-                @click="destroy(item)"
-              >
-                mdi-delete
-              </v-icon>
+              <v-icon small color="blue" @click="update(item)">mdi-pencil</v-icon>
+              <v-icon small color="red" @click="destroy(item)">mdi-delete</v-icon>
             </template>
           </v-data-table>
         </v-card-title>
@@ -61,36 +41,29 @@
       <v-card>
         <v-card-title>
           <v-row>
-            <v-col cols="2">
-              <v-text-field
-                v-model="id"
-                outlined
-                disabled
-                color="green"
-                placeholder="ID Da Categoria"
-                label="ID da categoria"
-              ></v-text-field>
-            </v-col>
             <v-col>
               <v-text-field
                 v-model="nome"
                 outlined
                 color="green"
-                placeholder="Nome Da Categoria"
-                label="Nome da categoria"
+                placeholder="Nome do Autor"
+                label="Nome do autor"
+              ></v-text-field>
+            </v-col>
+            <v-col>
+              <v-text-field
+                v-model="email"
+                outlined
+                color="green"
+                placeholder="E-mail do Autor"
+                label="E-mail do autor"
               ></v-text-field>
             </v-col>
           </v-row>
         </v-card-title>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn
-            color="green"
-            class="mx-auto"
-            @click="persist"
-          >
-            Salvar
-          </v-btn>
+          <v-btn color="green" class="mx-auto" @click="persist">Salvar</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -106,52 +79,59 @@ export default {
       items: [],
       dialog: false,
       nome: null,
-      id: null,
+      email: null,
       headers: [
-        {
-          text: 'id',
-          value: 'id',
-          align: 'center'
+        { text: 'ID', 
+          value: 'id', 
+          align: 'center' 
         },
-        {
-          text: 'nome',
-          value: 'nome',
-          align: 'center'
+        { text: 'Nome', 
+          value: 'nome', 
+          align: 'center' 
         },
-        { text: "", value: "actions", filterable: false },
-      ]
-    }
+        { text: 'E-mail', 
+          value: 'email', 
+          align: 'center' 
+        },
+        { text: '', 
+          value: 'actions', 
+          filterable: false 
+        },
+      ],
+    };
   },
   async created() {
-    await this.getAllCategories();
+    await this.getAllAuthors();
   },
   methods: {
     update(item) {
       this.nome = item.nome;
-      this.id = item.id;
+      this.email = item.email;
       this.dialog = true;
     },
     async persist() {
       try {
         const request = {
-          nome: this.nome
+          nome: this.nome,
+          email: this.email,
         };
         if (this.id) {
-          await this.$api.patch(`/categorias/${this.id}`, request);
+          await this.$api.patch(`/autor/${this.id}`, request);
         } else {
-          await this.$api.post(`/categorias/`, request);
+          await this.$api.post(`/autor`, request);
         }
         this.nome = null;
+        this.email = null;
         this.id = null;
         this.dialog = false;
-        await this.getAllCategories();
+        await this.getAllAuthors();
       } catch (error) {
         return alert('F');
       }
     },
-    async getAllCategories() {
+    async getAllAuthors() {
       try {
-        const response = await this.$api.get('/categorias');
+        const response = await this.$api.get('/autor');
         this.items = response;
       } catch (error) {
         return alert('F');
@@ -159,27 +139,14 @@ export default {
     },
     async destroy(item) {
       try {
-        await this.$api.post('/categorias/deletar', { id: item.id });
-        await this.getAllCategories();
+        await this.$api.post('/autor/deletar', { id: item.id });
+        await this.getAllAuthors();
       } catch (error) {
         return alert('F');
       }
     },
-    // async update(item) {
-    //   try {
-    //     const response = await this.$api.get(`/categorias/${item.id}`);
-    //     this.nome = response.nome;
-    //     this.id = response.id;
-    //     this.dialog = true;
-    //   } catch (error) {
-    //     return alert('F');
-    //   }
-    // },
-
-
-
-  }
-}
+  },
+};
 </script>
 
 <style>

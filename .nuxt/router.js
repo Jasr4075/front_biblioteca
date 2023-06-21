@@ -4,8 +4,12 @@ import { normalizeURL, decode } from 'ufo'
 import { interopDefault } from './utils'
 import scrollBehavior from './router.scrollBehavior.js'
 
-const _6887a66c = () => interopDefault(import('../pages/inspire.vue' /* webpackChunkName: "pages/inspire" */))
-const _a3145238 = () => interopDefault(import('../pages/index.vue' /* webpackChunkName: "pages/index" */))
+const _e716e008 = () => interopDefault(import('../pages/cadastroAutor.vue' /* webpackChunkName: "pages/cadastroAutor" */))
+const _7b97f46f = () => interopDefault(import('../pages/cadastroLivro.vue' /* webpackChunkName: "pages/cadastroLivro" */))
+const _44fae0c7 = () => interopDefault(import('../pages/cadastroUsuario.vue' /* webpackChunkName: "pages/cadastroUsuario" */))
+const _29d92ffe = () => interopDefault(import('../pages/categorias.vue' /* webpackChunkName: "pages/categorias" */))
+const _4ddae6e6 = () => interopDefault(import('../pages/emprestimo.vue' /* webpackChunkName: "pages/emprestimo" */))
+const _7685f43d = () => interopDefault(import('../pages/home.vue' /* webpackChunkName: "pages/home" */))
 
 const emptyFn = () => {}
 
@@ -19,13 +23,29 @@ export const routerOptions = {
   scrollBehavior,
 
   routes: [{
-    path: "/inspire",
-    component: _6887a66c,
-    name: "inspire"
+    path: "/cadastroAutor",
+    component: _e716e008,
+    name: "cadastroAutor"
   }, {
-    path: "/",
-    component: _a3145238,
-    name: "index"
+    path: "/cadastroLivro",
+    component: _7b97f46f,
+    name: "cadastroLivro"
+  }, {
+    path: "/cadastroUsuario",
+    component: _44fae0c7,
+    name: "cadastroUsuario"
+  }, {
+    path: "/categorias",
+    component: _29d92ffe,
+    name: "categorias"
+  }, {
+    path: "/emprestimo",
+    component: _4ddae6e6,
+    name: "emprestimo"
+  }, {
+    path: "/home",
+    component: _7685f43d,
+    name: "home"
   }],
 
   fallback: false
