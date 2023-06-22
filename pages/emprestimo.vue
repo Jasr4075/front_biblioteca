@@ -1,211 +1,126 @@
 <template>
   <v-container>
+    <h1 class="text-center">Cadastro de Empréstimo</h1>
     <v-row>
-      <v-col>
-        <h1 class="text-center">
-          Cadastro de Empréstimo de Livro
-        </h1>
-        <v-btn
-          fab
-          small
-          color="green"
-          class="mx-auto"
-          @click="dialog = true"
-        >
-          <v-icon>
-            mdi-plus
-          </v-icon>
-        </v-btn>
+      <v-col cols="12" sm="6" md="4">
+        <v-autocomplete
+          v-model="livro"
+          :items="livros"
+          item-text="titulo"
+          item-value="id"
+          label="Livro"
+          outlined
+          dense
+        ></v-autocomplete>
+      </v-col>
+      <v-col cols="12" sm="6" md="4">
+        <v-autocomplete
+          v-model="usuario"
+          :items="usuarios"
+          item-text="nome"
+          item-value="id"
+          label="Usuário"
+          outlined
+          dense
+        ></v-autocomplete>
+      </v-col>
+      <v-col cols="12" sm="6" md="4">
+        <v-btn color="green" :disabled="!livro || !usuario" @click="criarEmprestimo">Emprestar</v-btn>
       </v-col>
     </v-row>
     <v-row>
       <v-card width="900" class="mx-auto">
-        <v-row>
-          <v-col>
-            <v-text-field
-              v-model="search"
-              append-icon="mdi-magnify"
-              label="Search"
-              single-line
-              hide-details
-            ></v-text-field>
-          </v-col>
-        </v-row>
         <v-card-title>
-          <v-data-table
-            :headers="headers"
-            :items="items"
-            :search="search"
-          >
-            <template #[`item.actions`]="{ item }">
-              <v-icon
-                small
-                color="blue"
-                @click="update(item)"
-              >
-                mdi-pencil
-              </v-icon>
-              <v-icon
-                small
-                color="red"
-                @click="destroy(item)"
-              >
-                mdi-delete
-              </v-icon>
-            </template>
-          </v-data-table>
+          <v-data-table :headers="headers" :items="emprestimos"></v-data-table>
         </v-card-title>
       </v-card>
     </v-row>
-    <v-dialog v-model="dialog">
-      <v-card>
-        <v-card-title>
-          <v-row>
-            <v-col>
-              <v-text-field
-                v-model="prazo"
-                outlined
-                color="green"
-                placeholder="Prazo"
-                label="Prazo"
-              ></v-text-field>
-            </v-col>
-            <v-col>
-              <v-text-field
-                v-model="devolucao"
-                outlined
-                color="green"
-                placeholder="Devolução"
-                label="Devolução"
-              ></v-text-field>
-            </v-col>
-            <v-col>
-              <v-select
-                v-model="selectedUsuario"
-                :items="usuarios"
-                item-text="nome"
-                item-value="id"
-                label="Usuário"
-              ></v-select>
-            </v-col>
-          </v-row>
-        </v-card-title>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn
-            color="green"
-            class="mx-auto"
-            @click="persist"
-          >
-            Salvar
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
   </v-container>
 </template>
 
 <script>
-import axios from 'axios';
-
 export default {
   name: 'Index',
   data() {
     return {
-      search: null,
-      items: [],
-      dialog: false,
+      livro: null,
+      usuario: null,
+      livros: [],
       usuarios: [],
-      prazo: null,
-      devolucao: null,
-      selectedUsuario: null,
+      emprestimos: [],
       headers: [
-        {
-          text: 'ID',
-          value: 'id',
-          align: 'center'
+        { 
+          text: 'ID', 
+          value: 'id', 
+          align: 'center' 
         },
-        {
-          text: 'Prazo',
-          value: 'prazo',
-          align: 'center'
+        { 
+          text: 'Livro', 
+          value: 'titulo', 
+          align: 'center' 
         },
-        {
-          text: 'Devolução',
-          value: 'devolucao',
-          align: 'center'
+        { 
+          text: 'Usuário', 
+          value: 'usuario', 
+          align: 'center' 
         },
-        {
-          text: 'Usuário',
-          value: 'usuario.nome',
-          align: 'center'
-        },
-        {
-          text: " ",
-          value: "actions",
-          filterable: false
-        },
-      ]
-    }
+      ],
+    };
   },
-  async created() {
-    await this.getAllEmprestimos();
-    await this.getAllUsuarios();
+  created() {
+    this.getAllLivros();
+    this.getAllUsuarios();
+    this.getAllEmprestimos();
   },
   methods: {
-    update(item) {
-      this.prazo = item.prazo;
-      this.devolucao = item.devolucao;
-      this.selectedUsuario = item.usuario.id;
-      this.dialog = true;
-    },
-    async persist() {
+    async criarEmprestimo() {
       try {
-        const request = {
-          prazo: this.prazo,
-          devolucao: this.devolucao,
-          idUsuario: this.selectedUsuario
+        const emprestimo = {
+          titulo_id: this.livro.id,
+          usuario_id: this.usuario.id,
         };
-        if (this.id) {
-          await axios.post(`/emprestimo/${this.id}`, request);
-        } else {
-          await axios.post(`/emprestimo`, request);
-        }
-        this.prazo = null;
-        this.devolucao = null;
-        this.selectedUsuario = null;
-        this.dialog = false;
-        await this.getAllEmprestimos();
+
+        await this.$api.post('/emprestimo', emprestimo);
+        await this.$api.post(`/livro/${this.livro.id}`, { disponivel: false });
+        await this.$api.post(`/usuario/${this.usuario.id}`, { livro_emprestado: true });
+
+        alert('Empréstimo criado com sucesso');
+        this.resetForm();
+        this.getAllEmprestimos();
       } catch (error) {
-        return alert('No fue posible agregar el préstamo');
+        return alert('F1');
+      }
+    },
+    async getAllLivros() {
+      try {
+        const response = await this.$api.get('/livro');
+        this.livros = response;
+      } catch (error) {
+        return alert('F2');
       }
     },
     async getAllUsuarios() {
       try {
-        const response = await axios.get('/usuarios');
-        this.usuarios = response.data;
+        const response = await this.$api.get('/usuario');
+        this.usuarios = response;
       } catch (error) {
-        return alert('F');
+        return alert('F3');
       }
     },
     async getAllEmprestimos() {
       try {
-        const response = await axios.get('/emprestimo');
-        this.items = response.data;
+        const response = await this.$api.get('/emprestimo');
+        this.emprestimos = response;
       } catch (error) {
         return alert('F');
       }
     },
-    async destroy(item) {
-      try {
-        await axios.post('/emprestimo/deletar', { id: item.id });
-        await this.getAllEmprestimos();
-      } catch (error) {
-        return alert('F');
-      }
+    resetForm() {
+      this.livro = null;
+      this.usuario = null;
     },
-  }
-}
+  },
+};
 </script>
 
 <style>

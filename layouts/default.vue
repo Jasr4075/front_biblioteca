@@ -1,5 +1,5 @@
 <template>
-  <v-app >
+  <v-app>
     <v-navigation-drawer
       v-model="drawer"
       :mini-variant="miniVariant"
@@ -32,7 +32,7 @@
     </v-app-bar>
     <v-main>
       <v-container>
-        <Nuxt />
+        <nuxt />
       </v-container>
     </v-main>
     <v-footer :absolute="!fixed" app>
@@ -89,3 +89,6 @@ export default {
   },
 }
 </script>
+
+<style>
+</style>

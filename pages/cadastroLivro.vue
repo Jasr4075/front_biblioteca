@@ -81,14 +81,27 @@
             </v-col>
             <v-col>
               <v-autocomplete
+                v-model="categoria"
                 :items="categorias"
                 item-text="nome"
                 item-value="id"
                 dense
                 filled
                 solo-inverted
-              >
-            </v-autocomplete>
+                label="Categoria"
+              ></v-autocomplete>
+            </v-col>
+            <v-col>
+              <v-autocomplete
+                v-model="autor"
+                :items="autores"
+                item-text="nome"
+                item-value="id"
+                dense
+                filled
+                solo-inverted
+                label="Autor"
+              ></v-autocomplete>
             </v-col>
           </v-row>
         </v-card-title>
@@ -116,8 +129,11 @@ export default {
       items: [],
       dialog: false,
       categorias: [],
+      autores: [],
       nome: null,
       sinopse: null,
+      categoria: null,
+      autor: null,
       headers: [
         {
           text: 'ID',
@@ -126,7 +142,7 @@ export default {
         },
         {
           text: 'Nome',
-          value: 'nome',
+          value: 'titulo',
           align: 'center'
         },
         {
@@ -137,46 +153,54 @@ export default {
         { 
           text: " ", 
           value: "actions", 
-          filterable: false },
+          filterable: false 
+        },
       ]
     }
   },
   async created() {
     await this.getAllLivros();
-    await this.getAllCategorias()
+    await this.getAllCategorias();
+    await this.getAllAutores();
   },
   methods: {
     update(item) {
-      this.nome = item.nome;
+      this.titulo = item.nome;
       this.sinopse = item.sinopse;
+      this.categoria = item.categoria;
+      this.autor = item.autor;
       this.id = item.id;
-      this.dialog = true;
+      this.dialog = false;
     },
     async persist() {
       try {
         const request = {
-          nome: this.nome,
-          sinopse: this.sinopse
+          titulo: this.nome,
+          sinopse: this.sinopse,
+          idCategoria: this.categoria,
+          idAutor: this.autor,
         };
         if (this.id) {
           await this.$api.post(`/livro/${this.id}`, request);
         } else {
-          await this.$api.post(`/livro`, request);
+          await this.$api.post('/livro', request);
         }
-        this.nome = null;
+        this.titulo = null;
         this.sinopse = null;
+        this.categoria = null;
+        this.autor = null;
         this.id = null;
         this.dialog = false;
         await this.getAllLivros();
       } catch (error) {
-        return alert('no fue posible agrear el libro');
+        return alert('No fue posible salvar el libro');
       }
     },
 
     async getAllCategorias() {
       try {
         const response = await this.$api.get('/categorias');
-        this.categorias = response
+        this.categorias = response;
       } catch (error) {
         return alert('F');
       }
@@ -190,6 +214,16 @@ export default {
         return alert('F');
       }
     },
+
+    async getAllAutores() {
+      try {
+        const response = await this.$api.get('/autor');
+        this.autores = response;
+      } catch (error) {
+        return alert('F');
+      }
+    },
+
     async destroy(item) {
       try {
         await this.$api.post('/livro/deletar', { id: item.id });
