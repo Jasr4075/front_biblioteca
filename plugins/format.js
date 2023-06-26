@@ -4,5 +4,3 @@ export default(_, inject) => {
     return `${dia}/${mes}/${ano}`;
   });
 }
-
-this.$formatDate('2021-01-01')

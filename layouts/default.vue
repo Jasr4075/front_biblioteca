@@ -80,6 +80,11 @@ export default {
           title: 'Cadastrar livro',
           to: '/cadastroLivro',
         },
+        {
+          icon: 'mdi-chart-bubble',
+          title: 'calculadora',
+          to: '/calculadora',
+        },
       ],
       miniVariant: false,
       right: true,

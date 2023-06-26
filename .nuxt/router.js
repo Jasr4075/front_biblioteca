@@ -7,6 +7,7 @@ import scrollBehavior from './router.scrollBehavior.js'
 const _e716e008 = () => interopDefault(import('../pages/cadastroAutor.vue' /* webpackChunkName: "pages/cadastroAutor" */))
 const _7b97f46f = () => interopDefault(import('../pages/cadastroLivro.vue' /* webpackChunkName: "pages/cadastroLivro" */))
 const _44fae0c7 = () => interopDefault(import('../pages/cadastroUsuario.vue' /* webpackChunkName: "pages/cadastroUsuario" */))
+const _c0aec8be = () => interopDefault(import('../pages/Calculadora.vue' /* webpackChunkName: "pages/Calculadora" */))
 const _29d92ffe = () => interopDefault(import('../pages/categorias.vue' /* webpackChunkName: "pages/categorias" */))
 const _4ddae6e6 = () => interopDefault(import('../pages/emprestimo.vue' /* webpackChunkName: "pages/emprestimo" */))
 const _7685f43d = () => interopDefault(import('../pages/home.vue' /* webpackChunkName: "pages/home" */))
@@ -34,6 +35,10 @@ export const routerOptions = {
     path: "/cadastroUsuario",
     component: _44fae0c7,
     name: "cadastroUsuario"
+  }, {
+    path: "/Calculadora",
+    component: _c0aec8be,
+    name: "Calculadora"
   }, {
     path: "/categorias",
     component: _29d92ffe,

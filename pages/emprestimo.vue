@@ -5,10 +5,9 @@
       <v-col cols="12" sm="6" md="4">
         <v-autocomplete
           v-model="livro"
-          :items="livros"
+          :items="livro"
           item-text="titulo"
-          item-value="id"
-          label="Livro"
+          item-value="titulo"
           outlined
           dense
         ></v-autocomplete>
@@ -50,20 +49,20 @@ export default {
       emprestimos: [],
       headers: [
         { 
-          text: 'ID', 
-          value: 'id', 
-          align: 'center' 
-        },
+        text:  'ID', 
+        value: 'id', 
+        align: 'center' 
+      },
         { 
-          text: 'Livro', 
-          value: 'titulo', 
-          align: 'center' 
-        },
+        text:  'Livro', 
+        value: 'livro', 
+        align: 'center' 
+      },
         { 
-          text: 'Usuário', 
-          value: 'usuario', 
-          align: 'center' 
-        },
+        text:  'Usuário', 
+        value: 'usuario', 
+        align: 'center' 
+      },
       ],
     };
   },
@@ -76,7 +75,7 @@ export default {
     async criarEmprestimo() {
       try {
         const emprestimo = {
-          titulo_id: this.livro.id,
+          titulo_id: this.titulo.id,
           usuario_id: this.usuario.id,
         };
 
@@ -94,8 +93,8 @@ export default {
     async getAllLivros() {
       try {
         const response = await this.$api.get('/livro');
-        this.livros = response;
-      } catch (error) {
+        this.livro = response;
+      }catch (error) {
         return alert('F2');
       }
     },
@@ -116,7 +115,7 @@ export default {
       }
     },
     resetForm() {
-      this.livro = null;
+      this.titulo = null;
       this.usuario = null;
     },
   },

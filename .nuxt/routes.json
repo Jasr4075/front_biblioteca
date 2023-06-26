@@ -21,6 +21,13 @@
     "_name": "_44fae0c7"
   },
   {
+    "name": "Calculadora",
+    "path": "/Calculadora",
+    "component": "/home/ixcsoft/juan/meu_nuxt/pages/Calculadora.vue",
+    "chunkName": "pages/Calculadora",
+    "_name": "_c0aec8be"
+  },
+  {
     "name": "categorias",
     "path": "/categorias",
     "component": "/home/ixcsoft/juan/meu_nuxt/pages/categorias.vue",
